@@ -10,29 +10,31 @@ generator client {
 
 // prisma/schema.prisma
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
   // uncomment next line if you use Prisma <5.10
   // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Dish {
-  id                  Int @id @default(autoincrement())
-  name                String  
-  description         String  
-  availabilityQty     Int  
-  price               Float  
+  id                  Int      @id @default(autoincrement())
+  name                String
+  description         String
+  availabilityQty     Int
+  price               Float
   category            String
   ingredients         String[]
   active              Boolean
   image               String
   dietaryrestrictions String[]
+  Menu                Menu?    @relation(fields: [menuId], references: [id], onDelete: NoAction)
+  menuId              Int?
 }
 
 model Menu {
-  id          Int @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   description String
-  dishes      String[]
+  dishes      Dish[]
   active      Boolean
 }
